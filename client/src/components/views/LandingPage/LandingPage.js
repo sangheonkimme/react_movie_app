@@ -4,6 +4,7 @@ import { API_URL, API_KEY, IMAGE_BASE_URL } from '../../Config';
 import MainImage from '../commons/MainImage';
 import GridCards from '../commons/GridCards';
 import { Row } from 'antd';
+import './LandingPage.css';
 
 function LandingPage() {
 
@@ -11,8 +12,10 @@ function LandingPage() {
     const [MainMovieImage, setMainMovieImage] = useState([])
     const [currentPage, setcurrentPage] = useState(0)
 
+    const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+
     useEffect(() => {
-        const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+        
         fetchMovies(endpoint)
         
     }, [])
@@ -32,8 +35,10 @@ function LandingPage() {
         const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPage + 1}`;
         fetchMovies(endpoint)
     }
+
+
     return (
-        <div style={{ width: '100%', margin: '0' }}>
+        <div className="landing_wrap">
             
             {/* Main Image */}
 
@@ -44,7 +49,7 @@ function LandingPage() {
                 />
             }
             
-            <div style={{ width: '85%', margin: '1rem auto' }}>
+            <section className="landing_movie_list">
 
                 <h2>Movies by latest</h2>
                 <hr />
@@ -65,11 +70,12 @@ function LandingPage() {
                     
                 </Row>
 
-            </div>
+            </section>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="load_more">
                 <button onClick={loadMoreMovies}>Load More</button>
             </div>
+
         </div>
     )
 }

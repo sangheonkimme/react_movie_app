@@ -5,6 +5,7 @@ import GridCards from '../commons/GridCards';
 import MovieInfo from './Sections/MovieInfo';
 import Favorite from './Sections/Favorite';
 import { Row } from 'antd';
+import './MovieDetail.css';
 
 function MovieDetail(props) {
 
@@ -13,36 +14,38 @@ function MovieDetail(props) {
     const [Casts, setCasts] = useState([])
     const [ActorToggle, setActorToggle] = useState(false)
 
+    let endpointCrew = `${API_URL}movie/${movieID}/credits?api_key=${API_KEY}`
+    let endpointInfo = `${API_URL}movie/${movieID}?api_key=${API_KEY}`
+
     useEffect(() => {
         
-        let endpointCrew = `${API_URL}movie/${movieID}/credits?api_key=${API_KEY}`
-
-        let endpointInfo = `${API_URL}movie/${movieID}?api_key=${API_KEY}`
-
-        fetch(endpointInfo)
-            .then(response => response.json())
-            .then(response => (
-
-                setMovie(response)
-
-            ))
-
-        fetch(endpointCrew)
-            .then(response => response.json())
-            .then(response => (
-                console.log(response.cast),
-                setCasts(response.cast)
-
-            ))
+        fetchMovieInfo()
+        fetchMovieActors()
+            
     }, [])
+
+    const fetchMovieInfo = () => {
+        fetch(endpointInfo)
+        .then(response => response.json())
+        .then(response => (
+            setMovie(response)
+        ))
+    }
+    
+    const fetchMovieActors = () => {
+        fetch(endpointCrew)
+        .then(response => response.json())
+        .then(response => (
+            setCasts(response.  cast)
+        ))
+    }
 
     const toggleActorView = () => {
         setActorToggle(!ActorToggle)
     }
 
     return (
-        <div>
-
+        <>
             {/* Header */}
             <MainImage 
                 image={`${IMAGE_BASE_URL}w1280${Movie.poster_path}`}
@@ -50,11 +53,11 @@ function MovieDetail(props) {
                 text={Movie.overview}
             />
             {/* Body */}
-            <div style={{ width: '85%', margin: '1rem auto' }}>
+            <section className="movie_detail_page">
                 
-                <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
+                <p className="btn_favorite">
                     <Favorite movieInfo={Movie} movieID={movieID} userFrom= {localStorage.getItem('userId')} />
-                </div>
+                </p>
 
                 {/* Movie Info */}
                 <MovieInfo movie={Movie}/>
@@ -62,9 +65,9 @@ function MovieDetail(props) {
                 <br />
                 {/* Actors Grid */}
 
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem' }}>
+                <p className="btn_actor_view">
                     <button onClick={toggleActorView}> Toggle Actor View </button>
-                </div>
+                </p>
 
                 { ActorToggle && 
                     <Row gutter={[16,16]}>
@@ -80,12 +83,9 @@ function MovieDetail(props) {
                     </Row>
                 }
                 
+            </section>
 
-
-
-            </div>
-
-        </div>
+        </>
     )
 }
 
