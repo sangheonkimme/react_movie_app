@@ -1,0 +1,14 @@
+.landing_wrap {
+    width: 100%;
+    margin: 0;
+}
+
+.landing_movie_list {
+    width: 85%;
+    margin: 1rem auto;
+}
+
+.load_more {
+    display: flex;
+    justify-content: center;
+}

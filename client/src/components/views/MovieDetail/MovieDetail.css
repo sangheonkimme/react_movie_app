@@ -1,0 +1,15 @@
+.movie_detail_page {
+    width: 85%;
+    margin: 1rem auto;
+}
+
+.btn_favorite {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn_actor_view {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
